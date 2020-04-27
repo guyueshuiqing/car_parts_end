@@ -7,10 +7,6 @@
 		insert into user(name,age) values(#{name},#{age})
 	</insert>
 
-    <select id="selectUserInfo" resultType="user">
-		select username,sex,age,real_name,email,roleId from user where username = #{value}
-	</select>
-
     <select id="findRoleByRoleId" resultType="role">
 		select * from role where id = #{value}
 	</select>
@@ -19,7 +15,4 @@
 		update user set name=#{name} ,age=#{age} where id=#{id}
 	</update>
 
-    <delete id="deleteUserById">
-		delete from user where id = #{value}
-	</delete>
 </mapper>

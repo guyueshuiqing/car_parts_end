@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -19,6 +20,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
+
+    @Override
+    public void insertUser(User user) {
+        userMapper.insertUser(user);
+    }
 
     @Override
     public User findUserByUsername(String username) {
@@ -33,5 +39,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map findUserInfoByUsername(String username) {
         return userMapper.findUserInfoByUsername(username);
+    }
+
+    @Override
+    public User findUserLimitByUsername(String username) {
+        return userMapper.findUserLimitByUsername(username);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return userMapper.findAllUsers();
     }
 }

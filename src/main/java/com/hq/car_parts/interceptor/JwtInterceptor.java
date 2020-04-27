@@ -15,6 +15,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 @Component
 public class JwtInterceptor extends HandlerInterceptorAdapter {
@@ -28,17 +31,33 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println(request.getParameter("username")+"suuuuus"+request.getParameter("password"));
-        String authHeader = request.getHeader(this.tokenHeader);
-        System.out.println("sssssssssss"+authHeader);
+//        Map map=request.getParameterMap();
+//        Set keSet=map.entrySet();
+//        for(Iterator itr = keSet.iterator(); itr.hasNext();){
+//            Map.Entry me=(Map.Entry)itr.next();
+//            Object ok=me.getKey();
+//            Object ov=me.getValue();
+//            String[] value=new String[1];
+//            if(ov instanceof String[]){
+//                value=(String[])ov;
+//            }else{
+//                value[0]=ov.toString();
+//            }
+//
+//            for(int k=0;k<value.length;k++){
+//                System.out.println(ok+"="+value[k]);
+//            }
+//        }
+        String authHeader = request.getHeader(this.tokenHeader); // 获取带token的头部
+        System.out.println("OsssssssssssO"+authHeader);
         if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
-            String authToken = authHeader.substring(this.tokenHead.length());
+            String authToken = authHeader.substring(this.tokenHead.length()); //去掉 Bearer
+            System.out.println("AsssA"+authToken);
             if(jwtTokenUtil.isTokenExpired(authToken)){
                 throw new ApiException(ResultCode.UNAUTHORIZED);
             }
-            Claims claims = jwtTokenUtil.getClaimsFromToken(authToken);
-            if(claims != null){
-                request.setAttribute("user_claims",claims);
+            if(authToken != null){
+                request.setAttribute("token",authToken);
             }
             return true;
         }

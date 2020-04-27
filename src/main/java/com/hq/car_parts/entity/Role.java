@@ -6,13 +6,16 @@ import java.io.Serializable;
 
 public class Role implements Serializable {
     private Integer id;
+    private String roleEn;
     private String role;
     private Integer auth;
 
+
     public Role(){}
 
-    public Role(Integer id, String role, Integer auth) {
+    public Role(Integer id, String role, Integer auth, String roleEn) {
         this.id = id;
+        this.roleEn = roleEn;
         this.role = role;
         this.auth = auth;
     }
@@ -39,5 +42,13 @@ public class Role implements Serializable {
 
     public void setAuth(Integer auth) {
         this.auth = auth;
+    }
+
+    public String getRoleEn() {
+        return roleEn;
+    }
+
+    public void setRoleEn(String roleEn) {
+        this.roleEn = roleEn;
     }
 }
