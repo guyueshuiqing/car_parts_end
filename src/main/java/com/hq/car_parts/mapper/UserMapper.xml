@@ -15,6 +15,10 @@
 		select * from user
 	</select>
 
+	<select id="findUserByUsername" parameterType="string" resultType="user">
+		select * from user where username = #{value}
+	</select>
+
 <!--    <select id="findUserLimitByUsername" parameterType="string" resultMap="staffLi">-->
 <!--		SELECT `user`.username username,`user`.real_name real_name,`user`.email email,`user`.role_id role_id,staff_menu.limit_name FROM `user`,staff_limit_menus,staff_menu-->
 <!--		WHERE `user`.username = staff_limit_menus.staff_name AND staff_menu.id = staff_limit_menus.`limit` AND `user`.username = #{value}-->
@@ -32,16 +36,16 @@
 		<result column="real_name" property="realName"></result>
 		<result column="email" property="email"></result>
 		<result column="role_id" property="roleId"></result>
-		<collection property="staffMenus" ofType="com.hq.car_parts.entity.StaffMenu" column="username">
+		<collection property="staffMenus" ofType="com.hq.car_parts.entity.grant.StaffMenu" column="username">
 			<result column="limit_name" property="limitName"></result>
 		</collection>
 	</resultMap>
 
-    <update id="updateUser" parameterType="user">
-		update user set name=#{name} ,age=#{age} where id=#{id}
+    <update id="updateUserRole" parameterType="user">
+		update user set role_id=#{roleId} where username=#{username}
 	</update>
 
-    <delete id="deleteUserById">
-		delete from user where id = #{value}
+    <delete id="deleteUserByUsername" parameterType="string">
+		delete from user where username = #{value}
 	</delete>
 </mapper>

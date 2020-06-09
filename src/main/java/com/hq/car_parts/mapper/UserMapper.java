@@ -17,4 +17,8 @@ public interface UserMapper {
     User findUserLimitByUsername(String username);
 
     List<User> findAllUsers();
+
+    void deleteUserByUsername(String username);
+
+    void updateUserRole(User user);
 }

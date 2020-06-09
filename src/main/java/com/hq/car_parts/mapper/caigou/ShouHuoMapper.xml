@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hq.car_parts.mapper.caigou.ShouHuoMapper">
+    <insert id="insertShouHuo" parameterType="ShouHuo">
+		insert into caigou_shouhuo(shouHuoNum,dingDanNum,manager,supplier,goodsName,goodsNum,goodsUnit,unitPrice,sumPrice,deLiveryDate)
+		values(#{shouHuoNum},#{dingDanNum},#{manager},#{supplier},#{goodsName},#{goodsNum},#{goodsUnit},#{unitPrice},#{sumPrice},#{deLiveryDate})
+	</insert>
+
+    <select id="findAllShouHuo" resultType="ShouHuo">
+		select * from caigou_shouhuo
+	</select>
+
+    <select id="getShouHuoByNum" resultType="ShouHuo">
+		select * from caigou_shouhuo where shouHuoNum = #{shouHuoNum}
+	</select>
+
+    <select id="getOwnShouHuo" resultType="ShouHuo">
+		select * from caigou_shouhuo where manager = #{manager}
+	</select>
+
+    <select id="getOwnSort" resultType="ShouHuo">
+		select * from caigou_shouhuo where manager = #{manager}
+		ORDER BY sumPrice ASC
+	</select>
+
+    <select id="getFilterShouHuo" parameterType="com.hq.car_parts.entity.caigou.ShouHuoSelect"  resultType="ShouHuo">
+        select * from caigou_shouhuo where 1=1
+        <if test="shouHuoNum != null">
+            and shouHuoNum = #{shouHuoNum}
+        </if>
+        <if test="manager != null">
+            and manager like "%"#{manager}"%"
+        </if>
+        <if test="goodsName != null">
+            and goodsName like "%"#{goodsName}"%"
+        </if>
+        <if test="deLiveryDateStart != null">
+            and deLiveryDate BETWEEN #{deLiveryDateStart} and #{deLiveryDateEnd}
+        </if>
+    </select>
+
+    <update id="updateShouHuoStatus" parameterType="ShouHuo">
+		update caigou_shouhuo set status=#{status} where shouHuoNum=#{shouHuoNum}
+	</update>
+
+    <update id="updateShouHuo" parameterType="ShouHuo">
+		update caigou_shouhuo set
+		 purchaseNum = #{purchaseNum},applyStaff = #{applyStaff}, goodsName = #{goodsName}, supplier = #{supplier},
+		 goodsNum = #{goodsNum}, goodsUnit = #{goodsUnit},unitPrice = #{unitPrice},sumPrice = #{sumPrice},
+		 purchaseDate = #{purchaseDate},remarks = #{remarks}  where purchaseNum=#{purchaseNum}
+	</update>
+
+    <delete id="deleteShouHuoByNum" parameterType="string">
+		delete from caigou_shouhuo where dingDanNum = #{value}
+	</delete>
+
+</mapper>

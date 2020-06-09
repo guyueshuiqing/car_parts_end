@@ -28,11 +28,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByUsername(String username) {
-//        User user = (User) redisTemplate.opsForValue().get(username);
-//        if(null == user){
-//            user = userMapper.findUserByUsername(username);
-//            redisTemplate.opsForValue().set(username,user);
-//        }
         return userMapper.findUserByUsername(username);
     }
 
@@ -50,4 +45,15 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllUsers() {
         return userMapper.findAllUsers();
     }
+
+    @Override
+    public void deleteUserByUsername(String username) {
+        userMapper.deleteUserByUsername(username);
+    }
+
+    @Override
+    public void updateUserRole(User user) {
+        userMapper.updateUserRole(user);
+    }
+
 }

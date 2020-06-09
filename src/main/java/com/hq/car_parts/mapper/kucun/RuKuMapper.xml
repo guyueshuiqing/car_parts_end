@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hq.car_parts.mapper.kucun.RuKuMapper">
+    <insert id="insertRuKu" parameterType="RuKu">
+		insert into kucun_ruku(ruKuNum,supplier,goodsName,goodsNum,goodsUnit,unitPrice,sumPrice,aidutStaff,createDate,status)
+		values(#{ruKuNum},#{supplier},#{goodsName},#{goodsNum},#{goodsUnit},#{unitPrice},#{sumPrice},#{aidutStaff},#{createDate},#{status})
+	</insert>
+
+    <select id="findAllRuKu" resultType="RuKu">
+		select * from kucun_ruku
+	</select>
+
+    <select id="getRuKuByNum" resultType="RuKu">
+		select * from kucun_ruku where ruKuNum = #{ruKuNum}
+	</select>
+
+    <select id="getOwnRuKu" resultType="RuKu">
+		select * from kucun_ruku where applyStaff = #{applyStaff}
+	</select>
+
+    <select id="getFilterRuKu" parameterType="com.hq.car_parts.entity.kucun.RuKuSelect"  resultType="RuKu">
+        select * from kucun_ruku where 1=1
+        <if test="ruKuNum != null">
+            and ruKuNum = #{ruKuNum}
+        </if>
+        <if test="applyStaff != null">
+            and supplier like "%"#{supplier}"%"
+        </if>
+        <if test="goodsName != null">
+            and goodsName like "%"#{goodsName}"%"
+        </if>
+        <if test="createDateStart != null">
+            and createDate BETWEEN #{createDateStart} and #{createDateEnd}
+        </if>
+    </select>
+
+    <update id="updateRuKuStatus" parameterType="RuKu">
+		update kucun_ruku set status=#{status} where ruKuNum=#{ruKuNum}
+	</update>
+
+    <update id="updateRuKu" parameterType="RuKu">
+		update kucun_ruku set
+		 purchaseNum = #{purchaseNum},applyStaff = #{applyStaff}, goodsName = #{goodsName}, supplier = #{supplier},
+		 goodsNum = #{goodsNum}, goodsUnit = #{goodsUnit},unitPrice = #{unitPrice},sumPrice = #{sumPrice},
+		 purchaseDate = #{purchaseDate},remarks = #{remarks}  where purchaseNum=#{purchaseNum}
+	</update>
+
+    <delete id="deleteRuKuByNum" parameterType="string">
+		delete from kucun_ruku where dingDanNum = #{value}
+	</delete>
+
+</mapper>

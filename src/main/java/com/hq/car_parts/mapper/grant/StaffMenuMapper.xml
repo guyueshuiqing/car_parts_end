@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hq.car_parts.mapper.grant.StaffMenuMapper">
+
+    <select id="findLimitByLimitName" resultType="com.hq.car_parts.entity.grant.StaffMenu">
+		select staff_menu.* from staff_menu where limit_name = #{value}
+	</select>
+
+	<insert id="insertUser" parameterType="user">
+		insert into user(name,age) values(#{name},#{age})
+	</insert>
+
+    <update id="updateUser" parameterType="user">
+		update user set name=#{name} ,age=#{age} where id=#{id}
+	</update>
+
+</mapper>

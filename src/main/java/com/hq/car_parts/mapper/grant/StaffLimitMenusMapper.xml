@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hq.car_parts.mapper.grant.StaffLimitMenusMapper">
+    <insert id="insertStaffLimit" parameterType="StaffLimitMenus">
+		insert into staff_limit_menus(staff_name,`limit`) values(#{staffName},#{limit})
+	</insert>
+
+    <delete id="deleteStaffLimit" parameterType="integer">
+        delete from staff_limit_menus where id = #{id}
+    </delete>
+
+	<delete id="deleteStaffAllLimit" parameterType="string">
+        delete from staff_limit_menus where staff_name = #{staffName}
+    </delete>
+
+    <select id="findLimitByNameAndLimit" resultType="StaffLimitMenus" parameterType="StaffLimitMenus">
+		select * from staff_limit_menus where `limit` = #{limit} AND  staff_name = #{staffName}
+-- 		select * from staff_limit_menus where `limit` = 2 AND staff_name = '123Staff'
+	</select>
+
+    <select id="findUserByUsername" parameterType="string" resultType="user">
+		select * from user where username = #{value}
+	</select>
+
+    <update id="updateUser" parameterType="user">
+		update user set name=#{name} ,age=#{age} where id=#{id}
+	</update>
+
+</mapper>

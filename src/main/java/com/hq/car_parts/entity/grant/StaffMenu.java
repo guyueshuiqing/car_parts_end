@@ -1,4 +1,4 @@
-package com.hq.car_parts.entity;
+package com.hq.car_parts.entity.grant;
 
 import java.io.Serializable;
 

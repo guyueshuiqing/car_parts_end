@@ -3,15 +3,16 @@ package com.hq.car_parts.controller;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.hq.car_parts.common.CommonResult;
+import com.hq.car_parts.common.CookieUtils;
 import com.hq.car_parts.common.JwtTokenUtil;
+import com.hq.car_parts.common.exception.ApiException;
 import com.hq.car_parts.entity.Role;
-import com.hq.car_parts.entity.StaffMenu;
+import com.hq.car_parts.entity.grant.StaffMenu;
 import com.hq.car_parts.entity.User;
 import com.hq.car_parts.service.RoleService;
 import com.hq.car_parts.service.UserService;
-import io.jsonwebtoken.Claims;
+import com.hq.car_parts.service.grant.StaffMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,17 +33,6 @@ public class UserController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-//    @RequestMapping("/{page}")
-//    public String showPage(@PathVariable String page) {
-//        return page;
-//    }
-
-    @RequestMapping("/findUserById")
-    public String findUserById(String username, Model model) {
-        User user = this.userService.findUserByUsername(username);
-        model.addAttribute("user", user);
-        return "updateUser";
-    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
@@ -156,6 +146,15 @@ public class UserController {
         return CommonResult.success(repUsers,"成功");
     }
 
-
-
+    @RequestMapping(value = "/deleteUser/{username}",method = RequestMethod.DELETE)
+    @ResponseBody
+    public CommonResult deleteUser(@PathVariable String username){
+        System.out.println(username+"username++");
+        try {
+            userService.deleteUserByUsername(username);
+            return CommonResult.success(null,"删除成功！");
+        }catch (ApiException e){
+            return CommonResult.failed("删除异常");
+        }
+    }
 }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hq.car_parts.mapper.caigou.DingDanMapper">
+    <insert id="insertDingDan" parameterType="DingDan">
+		insert into caigou_dingdan(dingDanNum,purchaseNum,supplier,sumPrice,createDate,status)
+		values(#{dingDanNum},#{purchaseNum},#{supplier},#{sumPrice},#{createDate},#{status})
+	</insert>
+
+    <select id="findAllDingDan" resultType="DingDan">
+		select * from caigou_dingdan
+	</select>
+
+    <select id="getDingDanByNum" resultType="DingDan">
+		select * from caigou_dingdan where dingDanNum = #{dingDanNum}
+	</select>
+
+    <select id="getOwnDingDan" resultType="DingDan">
+		select * from caigou_dingdan where applyStaff = #{applyStaff}
+	</select>
+
+    <select id="getOwnSort" resultType="DingDan">
+		select * from caigou_dingdan where payApplyStaff = #{payApplyStaff}
+		ORDER BY applyPrice ASC
+	</select>
+
+    <select id="getFilterDingDan" parameterType="com.hq.car_parts.entity.caigou.DingDanSelect"  resultType="DingDan">
+        select * from caigou_dingdan where 1=1
+        <if test="dingDanNum != null">
+            and dingDanNum = #{dingDanNum}
+        </if>
+        <if test="supplier != null">
+            and supplier like "%"#{supplier}"%"
+        </if>
+        <if test="createDateStart != null">
+            and createDate BETWEEN #{createDateStart} and #{createDateEnd}
+        </if>
+        <if test="deLiveryDateStart != null">
+            and deLiveryDate BETWEEN #{deLiveryDateStart} and #{deLiveryDateEnd}
+        </if>
+    </select>
+
+    <update id="updateDingDanDate" parameterType="DingDan">
+		update caigou_dingdan set payApplyStaff=#{payApplyStaff}, deLiveryDate = #{deLiveryDate},status=#{status}  where dingDanNum=#{dingDanNum}
+	</update>
+
+    <update id="updateDingDanPrice" parameterType="DingDan">
+		update caigou_dingdan set applyPrice=#{applyPrice},status=#{status} where dingDanNum=#{dingDanNum}
+	</update>
+
+    <update id="updateDingDanStatus" parameterType="DingDan">
+		update caigou_dingdan set status=#{status} where dingDanNum=#{dingDanNum}
+	</update>
+
+    <update id="updateDingDan" parameterType="DingDan">
+		update caigou_dingdan set
+		 purchaseNum = #{purchaseNum},applyStaff = #{applyStaff}, goodsName = #{goodsName}, supplier = #{supplier},
+		 goodsNum = #{goodsNum}, goodsUnit = #{goodsUnit},unitPrice = #{unitPrice},sumPrice = #{sumPrice},
+		 purchaseDate = #{purchaseDate},remarks = #{remarks}  where purchaseNum=#{purchaseNum}
+	</update>
+
+    <delete id="deleteDingDanByNum" parameterType="string">
+		delete from caigou_dingdan where dingDanNum = #{value}
+	</delete>
+
+</mapper>

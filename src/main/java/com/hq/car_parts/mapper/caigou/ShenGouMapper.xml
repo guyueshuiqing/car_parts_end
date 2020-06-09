@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hq.car_parts.mapper.caigou.ShenGouMapper">
+    <insert id="insertShenGou" parameterType="ShenGou">
+		insert into caigou_shengou(purchaseNum,applyStaff,goodsName,supplier,goodsNum,goodsUnit,unitPrice,sumPrice,createDate,purchaseDate,status,remarks)
+		values(#{purchaseNum},#{applyStaff},#{goodsName},#{supplier},#{goodsNum},#{goodsUnit},#{unitPrice},#{sumPrice},#{createDate},#{purchaseDate},#{status},#{remarks})
+	</insert>
+
+    <select id="findAllShenGou" resultType="ShenGou">
+		select * from caigou_shengou
+	</select>
+
+	<select id="getShenGouByNum" resultType="ShenGou">
+		select * from caigou_shengou where purchaseNum = #{purchaseNum}
+	</select>
+
+	<select id="getOwnSort" resultType="ShenGou">
+		select * from caigou_shengou where applyStaff = #{applyStaff}
+		ORDER BY sumPrice ASC
+	</select>
+
+	<select id="getOwnShenGou" resultType="ShenGou">
+		select * from caigou_shengou where applyStaff = #{applyStaff}
+	</select>
+
+	<select id="getFilterShenGou" parameterType="com.hq.car_parts.entity.caigou.ShenGouSelect"  resultType="ShenGou">
+		select * from caigou_shengou where 1=1
+		<if test="purchaseNum != null">
+			and purchaseNum = #{purchaseNum}
+		</if>
+		<if test="applyStaff != null">
+			and applyStaff like "%"#{applyStaff}"%"
+		</if>
+		<if test="goodsName != null">
+			and goodsName like "%"#{goodsName}"%"
+		</if>
+		<if test="createDateStart != null">
+			and createDate BETWEEN #{createDateStart} and #{createDateEnd}
+		</if>
+		<if test="purchaseDateStart != null">
+			and purchaseDate BETWEEN #{purchaseDateStart} and #{purchaseDateEnd}
+		</if>
+	</select>
+
+    <update id="updateStatus" parameterType="ShenGou">
+		update caigou_shengou set status=#{status}, auditStaff = #{auditStaff}  where purchaseNum=#{purchaseNum}
+	</update>
+
+    <update id="updateShenGou" parameterType="ShenGou">
+		update caigou_shengou set
+		 purchaseNum = #{purchaseNum},applyStaff = #{applyStaff}, goodsName = #{goodsName}, supplier = #{supplier},
+		 goodsNum = #{goodsNum}, goodsUnit = #{goodsUnit},unitPrice = #{unitPrice},sumPrice = #{sumPrice},
+		 purchaseDate = #{purchaseDate},remarks = #{remarks}  where purchaseNum=#{purchaseNum}
+	</update>
+
+	<delete id="deleteShenGouByNum" parameterType="string">
+		delete from caigou_shengou where purchaseNum = #{value}
+	</delete>
+
+</mapper>

@@ -1,7 +1,7 @@
 package com.hq.car_parts.entity;
 
 
-import org.springframework.data.annotation.Id;
+import com.hq.car_parts.entity.grant.StaffMenu;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -47,8 +47,13 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public User(String username, Integer roleId) {
+        this.username = username;
+        this.roleId = roleId;
+    }
+
     public User(String id, Integer age, String username, String password, String sex, String realName, String email, Date createTime, Date loginTime, String status, String code, Integer roleId) {
-        System.out.println("user cons");
+
         this.id = id;
         this.age = age;
         this.username = username;

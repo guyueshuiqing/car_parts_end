@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.hq.car_parts.mapper.xiaoshou.TMapper">
+    <insert id="insertXiaoShouT" parameterType="XiaoShouT">
+		insert into xiaoshou_t(tNum,client,goodsName,goodsNum,unitPrice,sumPrice,reason,createDate,status)
+		values(#{tNum},#{client},#{goodsName},#{goodsNum},#{unitPrice},#{sumPrice},#{reason},#{createDate},#{status})
+	</insert>
+
+    <select id="findAllXiaoShouT" resultType="XiaoShouT">
+		select * from xiaoshou_t
+	</select>
+
+    <select id="getXiaoShouTByName" resultType="XiaoShouT">
+		select * from xiaoshou_t where goodsName = #{goodsName}
+	</select>
+
+    <select id="getXiaoShouTByNum" resultType="XiaoShouT">
+		select * from xiaoshou_t where tNum = #{tNum}
+	</select>
+
+    <select id="getOwnXiaoShouT" resultType="XiaoShouT">
+		select * from xiaoshou_t where applyStaff = #{applyStaff}
+	</select>
+
+    <select id="getFilterXiaoShouT" parameterType="com.hq.car_parts.entity.xiaoshou.XiaoShouT"  resultType="XiaoShouT">
+        select * from xiaoshou_t where 1=1
+        <if test="tNum != null">
+            and tNum = #{tNum}
+        </if>
+        <if test="applyStaff != null">
+            and applyStaff like "%"#{applyStaff}"%"
+        </if>
+        <if test="goodsName != null">
+            and goodsName like "%"#{goodsName}"%"
+        </if>
+    </select>
+
+
+    <update id="updateXiaoShouTStatus" parameterType="XiaoShouT">
+		update xiaoshou_t set status=#{status} where tNum=#{tNum}
+	</update>
+
+    <update id="updateNewXiaoShouT" parameterType="XiaoShouT">
+		update xiaoshou_t set goodsNum=#{goodsNum},sumPrice=#{sumPrice} where tNum=#{tNum}
+	</update>
+
+
+    <update id="updateXiaoShouTBreak" parameterType="XiaoShouT">
+		update xiaoshou_t set breakdown=#{breakdown} where tNum=#{tNum}
+	</update>
+
+    <update id="updateXiaoShouTUnit" parameterType="XiaoShouT">
+		update xiaoshou_t set unitPrice=#{unitPrice},sumPrice=#{sumPrice} where tNum=#{tNum}
+	</update>
+
+    <update id="updateXiaoShouT" parameterType="XiaoShouT">
+		update xiaoshou_t set
+		 purchaseNum = #{purchaseNum},applyStaff = #{applyStaff}, goodsName = #{goodsName}, supplier = #{supplier},
+		 goodsNum = #{goodsNum}, goodsUnit = #{goodsUnit},unitPrice = #{unitPrice},sumPrice = #{sumPrice},
+		 purchaseDate = #{purchaseDate},remarks = #{remarks}  where purchaseNum=#{purchaseNum}
+	</update>
+
+    <delete id="deleteXiaoShouTByNum" parameterType="string">
+		delete from xiaoshou_t where tNum = #{value}
+	</delete>
+
+</mapper>
